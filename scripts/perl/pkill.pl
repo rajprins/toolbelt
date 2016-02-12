@@ -40,7 +40,7 @@ use Tk::Font;
 ################################################################################
 my $OS            = $^O;
 my $PS_OPTIONS;
-my $REFRESHRATE   = 10000;
+my $REFRESHRATE   = 30000;
 my $USERNAME      = getpwuid $<;
 my $HEADER        = "USER | PID | COMMAND";
 my $TITLE         = "\u$OS Process Killer";
@@ -79,28 +79,14 @@ my $counter;
 ################################################################################
 
 # check OS version in order to determine some OS specific settings
-# For example, Windows is not supported....
 sub checkOS {
    if ($OS eq "linux")  {
-      # Linux
       $PS_OPTIONS = "aux";  
       $pidfield = 1;
       $ownerfield = 0;
       $commandfield = 10;
    }
-   elsif ($OS eq "darwin") { 
-      # Mac OS X/Darwin/OpenDarwin
-      # $PS_OPTIONS = "-auxc"; 
-      # $pidfield = 1;
-      # $ownerfield = 0;
-      # $commandfield = 10;
-      $PS_OPTIONS = '-e -o "user pid comm"'; 
-      $pidfield = 1;
-      $ownerfield = 0;
-      $commandfield = 2;
-   }
-   elsif ($OS eq "solaris") { 
-      # Sun Solaris/OpenSolaris (but not Nexenta!)
+   elsif ($OS eq "solaris" || $OS eq "darwin") { 
       $PS_OPTIONS = '-e -o "user pid comm"'; 
       $pidfield = 1;
       $ownerfield = 0;
@@ -172,11 +158,11 @@ sub getProcs {
    $process_list->itemconfigure("0", -background=>"darkgrey");
 
    # split output of the ps command and select the needed fields.
-   # Linux and Mac OS X:
+   # Linux:
    # USER PID %CPU %MEM  VSZ RSS TTY STAT START TIME COMMAND
    # 0    1   2    3     4   5   6   7    8     9    10
    #
-   # Solaris with custom options (-o "user pid comm"):
+   # Solaris and Mac OS X with custom options (-o "user pid comm"):
    # UID PID COMM
    # 0   1   2
    $counter = 0;
