@@ -1,10 +1,9 @@
 clear
+
 #tput rev
 echo "┌─────────────────────────────────────────────────────────────────────────┐"
 echo "│  Welcome, you are logged in as '${USER}' on host $(hostname)           │"
-#echo "├─────────────────────────────────────────────────────────────────────────┤"
 echo "│ Configuring your environment:                                           │"
-
 
 ### Environment variables
 echo "│ ✔ setting environment variables                                         │"
@@ -12,24 +11,19 @@ echo "│ ✔ setting environment variables                                     
 #export PS1="\\[\033[38;5;255m\]\[\033[48;5;21m\] \u \\[\033[38;5;21m\]\[\033[48;5;39m\] \h \\[\033[38;5;27m\]\[\033[48;5;51m\] \w\\[\033[38;5;21m\] \[$(tput bold)\]\[\033[38;5;28m\]\[\033[48;5;10m\]>\[$(tput sgr0)\] "
 export PS1="\[$(tput bold)\]\[\033[38;5;208m\][\[$(tput sgr0)\]\[\033[38;5;148m\]\u\[$(tput sgr0)\]\[\033[38;5;117m\]@\[$(tput sgr0)\]\[\033[38;5;51m\]\h\[$(tput sgr0)\]\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput bold)\]\[$(tput sgr0)\]\[\033[38;5;211m\]\w\[$(tput sgr0)\]\[\033[38;5;208m\]]\[$(tput sgr0)\]\[\033[38;5;253m\]\\$\[$(tput sgr0)\]\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]"
 #export PS1="\[\033[0;37m\]\342\224\214\342\224\200\$([[ \$? != 0 ]] && echo \"[\[\033[0;31m\]\342\234\227\[\033[0;37m\]]\342\224\200\")[$(if [[ ${EUID} == 0 ]]; then echo '\[\033[0;31m\]\h'; else echo '\[\033[0;33m\]\u\[\033[0;37m\]@\[\033[0;96m\]\h'; fi)\[\033[0;37m\]]\342\224\200[\[\033[0;32m\]\w\[\033[0;37m\]]\n\[\033[0;37m\]\342\224\224\342\224\200\342\224\200\342\225\274 \[\033[0m\]"
-#export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk1.7.0_80.jdk/Contents/Home"
-export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk1.8.0_60.jdk/Contents/Home"
+export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk1.8.0_73.jdk/Contents/Home"
 export JRE_HOME=$JAVA_HOME
 export M2_HOME="/opt/apache-maven-3.2.5"
 export MYSQL_HOME="/usr/local/mysql"
 export GOPATH="/Users/rprins/Development/goprojects"
-#export MULE_HOME="/opt/mule-enterprise-standalone-3.7.3"
 export PATH=$PATH:$HOME/bin:$M2_HOME/bin:$MYSQL_HOME/bin:$GOROOT
-# MacPorts Installer addition on 2015-12-01_at_15:22:35: adding an appropriate PATH variable for use with MacPorts.
-export PATH="/opt/local/bin:/opt/local/sbin:$PATH"
-# Finished adapting your PATH environment variable for use with MacPorts.
-
+export PATH="usr/local/sbin:/opt/local/bin:/opt/local/sbin:$PATH"
 
 ### Aliases and shortcuts
 echo "│ ✔ setting aliases                                                       │"
 alias cls="clear;ls"
 alias mci="mvn clean install -U -e -DskipTests=true"
-alias mcit="mvn clean install -U -e"
+alias mcit="mvnq clean install -U -e"
 alias mcit="mvn clean install"
 alias mci="mvn clean install -DskipTests=true"
 alias mcc="mvn clean compile -U -e -DskipTests=true"
@@ -42,7 +36,7 @@ alias edit="subl"
 alias portscan="/System/Library/CoreServices/Applications/Network\ Utility.app/Contents/Resources/stroke"
 alias fixow="/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/LaunchServices.framework/Versions/A/Support/lsregister -kill -r -domain local -domain user;echo 'Open With has been rebuilt. Relauching Finder...';killall Finder"
 alias fixvirtualbox="sudo /Library/StartupItems/VirtualBox/VirtualBox restart"
-
+alias soapui="/Applications/SoapUI-5.2.1.app/Contents/java/app/bin/soapui.sh"
 alias fixarchiveutility='echo "Archive Utility - stopping appleevents deamon.";sudo killall -KILL appleeventsd;echo "Please restart your machine."'
 alias git-revert="echo 'Reverting local git to origin/master';git fetch origin;git reset --hard origin/master;echo 'Done.'"
 alias wifi-diag="open '/System/Library/CoreServices/Applications/Wireless Diagnostics.app'"
@@ -74,3 +68,5 @@ alias ssh-aws-jenkins="ssh -i ~/.ssh/trainingjenkins.pem ubuntu@ec2-54-68-153-44
 echo "└─────────────────────────────────────────────────────────────────────────┘"
 tput sgr0
 echo
+
+test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
